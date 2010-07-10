@@ -1,0 +1,8 @@
+Sprigen
+---------
+
+Sprigen is an offline css sprige generator written in PHP.
+Why PHP? Because, personally, I think it has easiest image manipulation extension, and few miliseconds few/less doesn't really matter in this case.
+
+Contributors:
+Matija Folnovic (matijafolnovic at gmail dot com)
