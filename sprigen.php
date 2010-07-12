@@ -43,10 +43,17 @@ class Sprigen {
 
 		foreach( $files as $file ) {
 			list( $width, $height ) = getimagesize( $file );
-			$sprite[] = array( $file, 0, $y, $width, $height );
-			$y += $height;
-			$x = max( $width, $x );
+			$sprite[] = array( $file, $width, $height );
 		}
+		
+		usort( $sprite, create_function( '$a, $b', 'return $a[1] < $b[1] ? -1 : 1;' ) );
+		
+		foreach( $sprite as $id => $s ) {
+			$sprite[ $id ] = array( $s[ 0 ], 0, $y, $s[ 1 ], $s[ 2 ] );
+			$y += $s[ 2 ];
+			$x = max( $s[ 1 ], $x );
+		}
+		
 
 		return array( $x, $y, $sprite );
 	}
@@ -56,7 +63,7 @@ class Sprigen {
 		$im = new Imagick();
 		$im -> newImage( $sprite[ 0 ], $sprite[ 1 ], "#000000", 'png' );
 		$im -> setImageOpacity( 0.0 );
-
+		
 		foreach( $sprite[ 2 ] as $s ) {
 			$from = new Imagick( $s[ 0 ] );
 			$im -> compositeImage( $from, $from -> getImageCompose(), $s[ 1 ], $s[ 2 ] );
